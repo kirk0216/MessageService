@@ -103,6 +103,30 @@ public class MySQLMessageDatabase implements MessageDatabase {
     }
 
     @Override
+    public void insertPublisher(UUID id) {
+
+    }
+
+    @Override
+    public void deletePublisher(UUID id) {
+
+    }
+
+    @Override
+    public boolean isPublisher(UUID id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(PublisherSQL.IS_PUBLISHER);
+            statement.setBytes(1, Utils.toBytes(id));
+            return statement.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
     public List<Message> getMessagesByPublisher(UUID publisherId) {
         List<Message> messages = new ArrayList<>();
 

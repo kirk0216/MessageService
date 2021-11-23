@@ -11,6 +11,11 @@ CREATE TABLE message (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS publisher;
+CREATE TABLE publisher (
+    id BINARY(16)
+);
+
 DROP TABLE IF EXISTS subscription;
 CREATE TABLE subscription (
     subscriber_id BINARY(16) NOT NULL,

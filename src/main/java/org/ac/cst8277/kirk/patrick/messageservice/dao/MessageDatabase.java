@@ -15,6 +15,10 @@ public interface MessageDatabase {
     void updateMessage(Message message);
     void deleteMessage(UUID id);
 
+    boolean isPublisher(UUID id);
+    void insertPublisher(UUID id);
+    void deletePublisher(UUID id);
+
     List<Message> getAllMessages();
     List<Message> getMessagesByPublisher(UUID publisherId);
     List<Message> getMessagesForSubscriber(UUID subscriberId);

@@ -21,10 +21,17 @@ public class SubscriptionController {
         MessageDatabase database = new MySQLMessageDatabase();
         database.open();
 
-        database.insertSubscription(subscription);
-        response.setHttpStatus(HttpStatus.OK);
-        response.setMessage("Success");
-        response.setData(subscription);
+        if (database.isPublisher(subscription.getPublisherId())) {
+            database.insertSubscription(subscription);
+
+            response.setHttpStatus(HttpStatus.OK);
+            response.setMessage("Success");
+            response.setData(subscription);
+        }
+        else {
+            response.setHttpStatus(HttpStatus.BAD_REQUEST);
+            response.setMessage("User is not a publisher.");
+        }
 
         database.close();
 

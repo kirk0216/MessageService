@@ -21,26 +21,23 @@ public class MessageController {
     public ResponseEntity<Response> publishMessage(@RequestBody Message message) {
         Response response = new Response();
 
-        UserDetails userDetails = new UserService()
-                .getUserDetails(message.getAuthorId());
+        MessageDatabase database = new MySQLMessageDatabase();
+        database.open();
 
-        if (userDetails != null && userDetails.isPublisher()) {
-            MessageDatabase database = new MySQLMessageDatabase();
-            database.open();
-
+        if (database.isPublisher(message.getAuthorId())) {
             message.generateId();
             database.insertMessage(message);
 
             response.setHttpStatus(HttpStatus.OK);
             response.setMessage("Success");
             response.setData(message);
-
-            database.close();
         }
         else {
             response.setHttpStatus(HttpStatus.UNAUTHORIZED);
             response.setMessage("User is not a publisher.");
         }
+
+        database.close();
 
         return new ResponseEntity<>(response, response.getHttpStatus());
     }
