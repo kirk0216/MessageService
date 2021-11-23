@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: messageservice
+  name: messageservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messageservice
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: messageservice
+    spec:
+      containers:
+        - image: cst8277/messageservice-app:local
+          name: messageservice-app
+          resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: messageservice
+  name: messageservice
+spec:
+  ports:
+    - name: 8080-8080
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: messageservice
+  type: NodePort
+status:
+  loadBalancer: {}
