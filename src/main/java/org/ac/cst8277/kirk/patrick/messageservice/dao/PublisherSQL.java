@@ -6,5 +6,5 @@ public final class PublisherSQL {
     public static final String DELETE =
             "DELETE FROM ms.publisher WHERE id = ?;";
     public static final String IS_PUBLISHER =
-            "SELECT 1 FROM ms.publisher WHERE id = ?;";
+            "SELECT COUNT(*) AS COUNT FROM ms.publisher WHERE id = ?;";
 }

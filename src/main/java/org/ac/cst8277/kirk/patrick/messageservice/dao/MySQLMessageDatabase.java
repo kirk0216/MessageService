@@ -104,12 +104,26 @@ public class MySQLMessageDatabase implements MessageDatabase {
 
     @Override
     public void insertPublisher(UUID id) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(PublisherSQL.INSERT);
+            statement.setBytes(1, Utils.toBytes(id));
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deletePublisher(UUID id) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement(PublisherSQL.DELETE);
+            statement.setBytes(1, Utils.toBytes(id));
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -117,7 +131,14 @@ public class MySQLMessageDatabase implements MessageDatabase {
         try {
             PreparedStatement statement = connection.prepareStatement(PublisherSQL.IS_PUBLISHER);
             statement.setBytes(1, Utils.toBytes(id));
-            return statement.execute();
+
+            ResultSet result = statement.executeQuery();
+            result.next();
+            int count = result.getInt("COUNT");
+            System.out.println("Is Publisher? " + count);
+            result.close();
+
+            return count > 0;
         }
         catch (SQLException e) {
             e.printStackTrace();
